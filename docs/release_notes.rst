@@ -113,7 +113,7 @@ New Data Tests & Validations
   allow any failures. See :issue:`5566` and :pr:`5729`.
 * Added accounting validation tests for ``core_rus12__yearly_balance_sheet_assets`` and
   ``out_rus12__yearly_balance_sheet_assets`` to check that balance sheet components sum
-  to their reported totals. See :issue:`5728`.
+  to their reported totals. See :issue:`5728` and :pr:`5749`.
 
 Bug Fixes & Data Cleaning
 ^^^^^^^^^^^^^^^^^^^^^^^^^
