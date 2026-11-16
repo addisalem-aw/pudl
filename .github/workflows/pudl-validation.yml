@@ -32,6 +32,22 @@ jobs:
 
       - name: Check dbt configuration
         run: pixi run dbt parse --project-dir dbt
+ 
+      - name: Configure dbt profile
+        run: |
+          cat > ~/.dbt/profiles.yml <<'YAML'
+          pudl_duckdb:
+            target: dev
+            outputs:
+              dev:
+                type: duckdb
+                path: ":memory:"
+                schema: main
+                threads: 4
+          YAML
+
+      - name: Check dbt configuration
+        run: pixi run dbt parse --project-dir dbt
 
       - name: Show checked-out branch and commit
         run: |
