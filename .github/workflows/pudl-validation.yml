@@ -70,7 +70,16 @@ jobs:
           pixi run dbt parse \
             --project-dir dbt \
             --profiles-dir .dbt
+            
+      - name: Run RUS12 validation tests
+        run: |
+          pixi run dbt_helper validate \
+            --asset-select "key:core_rus12__yearly_balance_sheet_assets" \
+            --parquet-base-path s3://pudl.catalyst.coop/nightly
 
+          pixi run dbt_helper validate \
+            --asset-select "key:out_rus12__yearly_balance_sheet_assets" \
+            --parquet-base-path s3://pudl.catalyst.coop/nightly
       - name: Show checked-out branch and commit
         run: |
           git branch --show-current
