@@ -27,21 +27,10 @@ jobs:
       - name: Install PUDL dependencies
         run: pixi install --locked
 
-      - name: Create dbt profiles directory
-        run: mkdir -p ~/.dbt
-        
-      - name: Inspect dbt profile configuration
-        run: |
-          echo "Project profile:"
-          grep -n "^profile:" dbt/dbt_project.yml
-          echo "Generated profile file:"
-          cat ~/.dbt/profiles.yml
-          echo "dbt profile lookup:"
-          pixi run dbt debug --project-dir dbt --profiles-dir ~/.dbt  
- 
       - name: Configure dbt profile
         run: |
-          cat > ~/.dbt/profiles.yml <<'YAML'
+          mkdir -p .dbt
+          cat > .dbt/profiles.yml <<'YAML'
           pudl_duckdb:
             target: dev
             outputs:
@@ -51,6 +40,25 @@ jobs:
                 schema: main
                 threads: 4
           YAML
+
+          echo "Created dbt profile:"
+          cat .dbt/profiles.yml
+
+      - name: Inspect dbt profile configuration
+        run: |
+          echo "Project profile:"
+          grep -n "^profile:" dbt/dbt_project.yml
+
+          echo "dbt profile lookup:"
+          pixi run dbt debug \
+            --project-dir dbt \
+            --profiles-dir .dbt
+
+      - name: Check dbt configuration
+        run: |
+          pixi run dbt parse \
+            --project-dir dbt \
+            --profiles-dir .dbt
 
       - name: Show checked-out branch and commit
         run: |
