@@ -32,6 +32,15 @@ jobs:
 
       - name: Check dbt configuration
         run: pixi run dbt parse --project-dir dbt
+
+      - name: Inspect dbt profile configuration
+        run: |
+          echo "Project profile:"
+          grep -n "^profile:" dbt/dbt_project.yml
+          echo "Generated profile file:"
+          cat ~/.dbt/profiles.yml
+          echo "dbt profile lookup:"
+          pixi run dbt debug --project-dir dbt --profiles-dir ~/.dbt  
  
       - name: Configure dbt profile
         run: |
@@ -45,15 +54,6 @@ jobs:
                 schema: main
                 threads: 4
           YAML
-
-      - name: Inspect dbt profile configuration
-        run: |
-          echo "Project profile:"
-          grep -n "^profile:" dbt/dbt_project.yml
-          echo "Generated profile file:"
-          cat ~/.dbt/profiles.yml
-          echo "dbt profile lookup:"
-          pixi run dbt debug --project-dir dbt --profiles-dir ~/.dbt
 
       - name: Show checked-out branch and commit
         run: |
