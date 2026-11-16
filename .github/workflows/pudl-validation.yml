@@ -1,0 +1,22 @@
+
+name: PUDL Linux Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  linux-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Show Linux environment
+        run: |
+          echo "Linux environment is running"
+          uname -a
+          python --version
+          git status --short
+          pwd
+          ls -la
