@@ -31,7 +31,7 @@ jobs:
         run: mkdir -p ~/.dbt
 
       - name: Check dbt configuration
-        run: pixi run dbt parse
+        run: pixi run dbt parse --project-dir dbt
 
       - name: Show checked-out branch and commit
         run: |
