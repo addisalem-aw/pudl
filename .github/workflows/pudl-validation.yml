@@ -43,7 +43,14 @@ jobs:
 
           echo "Created dbt profile:"
           cat .dbt/profiles.yml
+      
+      - name: Configure PUDL environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/pudl-input"
+          mkdir -p "$RUNNER_TEMP/pudl-output"
 
+          echo "PUDL_INPUT=$RUNNER_TEMP/pudl-input" >> "$GITHUB_ENV"
+          echo "PUDL_OUTPUT=$RUNNER_TEMP/pudl-output" >> "$GITHUB_ENV"
       - name: Inspect dbt profile configuration
         run: |
           echo "Project profile:"
