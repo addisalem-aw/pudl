@@ -27,6 +27,9 @@ jobs:
       - name: Install PUDL dependencies
         run: pixi install --locked
 
+      - name: Create dbt profiles directory
+        run: mkdir -p ~/.dbt
+
       - name: Check dbt configuration
         run: pixi run dbt parse
 
