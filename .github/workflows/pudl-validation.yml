@@ -63,6 +63,8 @@ jobs:
       
       - name: Install dbt packages
         run: pixi run dbt deps --project-dir dbt --profiles-dir .dbt
+      - name: Check validation options
+        run: pixi run dbt_helper validate --help  
       - name: Check dbt configuration
         run: |
           pixi run dbt parse \
