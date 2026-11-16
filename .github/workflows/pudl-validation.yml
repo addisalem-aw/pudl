@@ -1,22 +1,36 @@
 
-name: PUDL Linux Check
+name: PUDL RUS12 PR 5749 Tests
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - test-5749-rus12-rebuild
 
 jobs:
-  linux-check:
+  rus12-validation:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
+      - name: Check out PR code (read-only)
+        uses: actions/checkout@v4
+        with:
+          repository: addisalem-aw/pudl
+          ref: issue-5728-rus12-assets-validation
 
-      - name: Show Linux environment
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0.9.1
+        with:
+          pixi-version: latest
+
+      - name: Install PUDL dependencies
+        run: pixi install --locked
+
+      - name: Check dbt configuration
+        run: pixi run dbt parse
+
+      - name: Show checked-out branch and commit
         run: |
-          echo "Linux environment is running"
-          uname -a
-          python --version
-          git status --short
-          pwd
-          ls -la
+          git branch --show-current
+          git log -1 --oneline
